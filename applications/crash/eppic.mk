@@ -29,7 +29,7 @@ lib-eppic:
 	cd libeppic && make
         
 eppic.so: $(INCDIR)/defs.h eppic.c lib-eppic
-	gcc -g -Ilibeppic -I$(INCDIR) -nostartfiles -shared -rdynamic -o eppic.so eppic.c -fPIC $(TARGET_FLAGS) $(GDB_FLAGS) -Llibeppic -leppic 
+	$(CC) -g -Ilibeppic -I$(INCDIR) -nostartfiles -shared -rdynamic -o eppic.so eppic.c -fPIC $(TARGET_FLAGS) $(GDB_FLAGS) -Llibeppic -leppic 
 
 clean:
 	cd libeppic && make clean
