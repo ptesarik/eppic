@@ -17,6 +17,8 @@
 # Must be berkeley yacc.  Bison will not cut it
 YACC = bison
 
+HOSTCC = cc
+
 LDIRT    = lex.eppic.c lex.eppicpp.c eppic.tab.c eppic.tab.h eppicpp.tab.c \
 	eppicpp.tab.h y.output mkbaseop baseops.c y.tab.c y.tab.h \
 	libeppic.so* *.output
@@ -67,7 +69,7 @@ install: headers exports
 	(cd scripts ; $(MAKE) install )
 
 baseops.o: mkbaseop.c
-	$(CC) $(CFLAGS) -o mkbaseop mkbaseop.c
+	$(HOSTCC) -o mkbaseop mkbaseop.c
 	./mkbaseop > baseops.c
 	$(CC) $(CFLAGS) -c baseops.c
 
