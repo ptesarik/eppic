@@ -67,14 +67,14 @@ install: headers exports
 	(cd scripts ; $(MAKE) install )
 
 baseops.o: mkbaseop.c
-	gcc $(CFLAGS) -o mkbaseop mkbaseop.c
+	$(CC) $(CFLAGS) -o mkbaseop mkbaseop.c
 	./mkbaseop > baseops.c
-	gcc $(CFLAGS) -c baseops.c
+	$(CC) $(CFLAGS) -c baseops.c
 
 mkbaseop.c eppic_member.o eppic_op.o eppic_stat.o eppic_type.o y.tab.o : eppic.tab.h
 
 lex.eppic.o: lex.eppic.c eppic.tab.c eppic.h
-	gcc $(CFLAGS) -c lex.eppic.c
+	$(CC) $(CFLAGS) -c lex.eppic.c
 
 lex.eppic.c: eppic.l
 	flex -L -Peppic -t eppic.l > lex.eppic.c
@@ -82,16 +82,16 @@ lex.eppic.c: eppic.l
 eppic.tab.c: eppic.tab.h
 
 eppicpp.tab.o: eppicpp.tab.c
-	gcc $(CFLAGS) -c eppicpp.tab.c
+	$(CC) $(CFLAGS) -c eppicpp.tab.c
 
 eppic.tab.o: eppic.tab.c
-	gcc $(CFLAGS) -c eppic.tab.c
+	$(CC) $(CFLAGS) -c eppic.tab.c
 
 eppic.tab.h : eppic.y
 	$(YACC) -peppic -v -t -d eppic.y
 
 lex.eppicpp.o: lex.eppicpp.c eppicpp.tab.c eppic.h
-	gcc $(CFLAGS) -c lex.eppicpp.c
+	$(CC) $(CFLAGS) -c lex.eppicpp.c
 
 lex.eppicpp.c: eppicpp.l
 	flex -Peppicpp -t eppicpp.l  > lex.eppicpp.c
@@ -103,9 +103,7 @@ eppicpp.tab.h : eppicpp.y eppic.tab.h
 
 default: $(TARGETS)
 
-# Explicit compilation rules for C files to use gcc instead of $(CC)
-%.o: %.c $(HFILES) eppic.tab.h
-	gcc $(CFLAGS) -c $< -o $@
+$(CFILES): $(HFILES) eppic.tab.h
 
 $(TARGETS): $(OFILES)
 	$(AR) cur $(TARGETS) $(OFILES)
